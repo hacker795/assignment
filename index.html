@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <title>Assignment</title>
+</head>
+<body>
+    <div class="form-container">
+        <div class="input-container">
+            <label for="input-value">Input Value:</label>
+            <input type="number" id="input-value" name="input-value">
+        </div>
+
+        <br>
+
+        <div class="input-container">
+            <label for="max-value">Max Value:</label>
+            <input type="number" id="max-value" name="max-value">
+        </div>
+
+
+        <br>
+        <div class="button-container">
+            <button onclick="updatePieChart()">Update Pie Chart</button>
+        </div>
+    </div>
+
+    <div class="charts-container">
+
+        <div class="pie-chart-container">
+            <canvas id="pie-chart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        function updateProgressBar() {
+            const inputValue = document.getElementById("input-value").value;
+            const maxValue = document.getElementById("max-value").value;
+
+            if (inputValue > maxValue) {
+                alert("Input value cannot be greater than max value.");
+                return;
+            }
+
+            const percentage = (inputValue / maxValue) * 100;
+            const progressBar = document.querySelector(".progress-bar");
+            progressBar.style.height = percentage + "%";
+        }
+
+        function updatePieChart() {
+            const inputValue = document.getElementById("input-value").value;
+            const maxValue = document.getElementById("max-value").value;
+
+            if (inputValue > maxValue) {
+                alert("Input value cannot be greater than max value.");
+                return;
+            }
+
+            const canvas = document.getElementById("pie-chart");
+            const ctx = canvas.getContext("2d");
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(canvas.width, canvas.height) / 2;
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, 0, (2 * Math.PI * inputValue) / maxValue);
+            ctx.fillStyle = "#336666";
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, (2 * Math.PI * inputValue) / maxValue, 2 * Math.PI);
+            ctx.fillStyle = "lightblue";
+            ctx.fill();
+            ctx.closePath();
+        }
+    </script>
+</body>
+</html>
